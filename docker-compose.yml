@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  node:
+    build:
+      context: .
+    ports:
+      - "4100:4000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.site_perso_api.rule=Host(`api.romain-quentel.ovh`)"
+      - "traefik.http.routers.site_perso_api.entrypoints=websecure"
+      - "traefik.http.routers.site_perso_api.tls=true"
+      - "traefik.http.routers.site_perso_api.tls.certresolver=defaultResolver"
