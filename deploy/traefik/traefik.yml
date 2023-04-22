@@ -1,0 +1,14 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+entryPoints:
+  web:
+    address: :80
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  docker: {}

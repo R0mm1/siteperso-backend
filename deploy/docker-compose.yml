@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  site-perso-api-node:
+    container_name: "site-perso-api-node"
+    build:
+      context: ../
+      dockerfile: ./deploy/Dockerfile
+    ports:
+      - "4100:4100"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.site_perso_node.rule=Host(`node.localhost`)"
+      - "traefik.http.routers.site_perso_node.entrypoints=web"
+      - "traefik.http.routers.site_perso_node.tls=false"
+
+  site-perso-api-varnish:
+    container_name: "site-perso-api-varnish"
+    build:
+      context: .
+      dockerfile: varnish/Dockerfile
+    ports:
+      - "4200:80"
+    volumes:
+      - "./varnish/default.vcl:/etc/varnish/default.vcl:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.site_perso_api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.site_perso_api.entrypoints=web"
+      - "traefik.http.routers.site_perso_api.tls=false"
+
+configs:
+  varnish_cfg:
+    file: ./varnish/default.vcl

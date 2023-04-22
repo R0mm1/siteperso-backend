@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  traefik:
+    container_name: "site-perso-traefik"
+    image: traefik:v2.5
+    command:
+      - --providers.docker=true
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
