@@ -94,9 +94,17 @@ class Flickr {
                 this.photoExif(photoId),
                 this.doGetRequest<FlickrPhotoSizesResponse>('flickr.photos.getSizes', {
                     photo_id: photoId
+                }),
+                this.doGetRequest<FlickrPhotosetResponse>('flickr.photosets.getPhotos', {
+                    photoset_id: process.env.FLICKR_PHOTOSET_ID,
                 })
             ])
             .then(data => {
+                const positionInPhotoset = data[3].photoset.photo
+                    .findIndex((photo) => {
+                        return photo.id === photoId;
+                    })
+
                 return {
                     id: photoId,
                     title: data[0].photo.title._content,
@@ -104,7 +112,9 @@ class Flickr {
                     url_m: data[2].sizes.size.find((size) => size.label === 'Medium')?.source,
                     url_b: data[2].sizes.size.find((size) => size.label === 'Medium 800')?.source,
                     flickr_page: data[0].photo.urls.url.find((url) => url.type === 'photopage')?._content,
-                    exifs: data[1]
+                    exifs: data[1],
+                    previous: data[3].photoset.photo[positionInPhotoset - 1]?.id,
+                    next: data[3].photoset.photo[positionInPhotoset + 1]?.id
                 }
             })
     }
