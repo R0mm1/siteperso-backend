@@ -113,8 +113,8 @@ class Flickr {
                     url_b: data[2].sizes.size.find((size) => size.label === 'Medium 800')?.source,
                     flickr_page: data[0].photo.urls.url.find((url) => url.type === 'photopage')?._content,
                     exifs: data[1],
-                    previous: data[3].photoset.photo[positionInPhotoset - 1]?.id,
-                    next: data[3].photoset.photo[positionInPhotoset + 1]?.id
+                    next: data[3].photoset.photo[positionInPhotoset - 1]?.id,
+                    previous: data[3].photoset.photo[positionInPhotoset + 1]?.id
                 }
             })
     }
