@@ -39,7 +39,9 @@ const schema = buildSchema(`
     url_m: String
     url_b: String
     flickr_page: String
-    exifs: PhotoExif
+    exifs: PhotoExif,
+    next: String,
+    previous: String
   }
   
   type Query {
